@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="6a916a29-5242-4624-9f2b-b3b24408973f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../hoang/src/hung/rate-100-NofS-100-60s.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hoang/src/hung/readme.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../hoang/src/hung/test.py" afterDir="false" />
-    </list>
+    <list default="true" id="6a916a29-5242-4624-9f2b-b3b24408973f" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,6 +28,9 @@
       <module name="hung" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -62,6 +61,7 @@
       <option name="presentableId" value="Default" />
       <updated>1620357532193</updated>
       <workItem from="1620357533626" duration="871000" />
+      <workItem from="1620359245865" duration="10000" />
     </task>
     <servers />
   </component>
