@@ -1,6 +1,7 @@
 from scipy.signal import butter
 from scipy.signal import lfilter, find_peaks, find_peaks_cwt
 import numpy as np
+import scipy.signal as ss
 from matplotlib import pyplot as plt
 import pandas as pd
 
@@ -40,11 +41,11 @@ ts = 60
 # Chuyen thoi gian sang truc x
 for index in range(0, np.size(t)):
     t[index] = ts * (index + 1) / np.size(t)
-# print(t)
-
+print(t)
 # get voltage
 voltage = data[:, -1]
-print(voltage)
+print(type(voltage))
+print(np.shape(voltage))
 ################################### draw data #################################
 plt.figure(1)
 plt.title('Original Signal')
@@ -55,16 +56,19 @@ plt.plot(t, voltage)
 plt.figure(2)
 HR = butter_bandpass_filter(voltage, fL, fH, fs)
 threshold_HR = (max(HR) - min(HR)) * 0.01  # muc nguong
-# print(HR)
-peaks, _ = find_peaks(HR, threshold=threshold_HR, height=1.35, width=1.5)
-print(peaks)
+peaks, _ = ss.find_peaks(HR, distance=2.5, height=threshold_HR)
+print(threshold_HR)
+HR = np.asarray(HR)
+print(np.size(peaks))
+#peaks, _ = find_peaks(HR,  height=20, width=20, distance=20)
+print('peak',peaks)
 # pkh,_ = find_peaks(HR, height=1.35, width=1.5, threshold=threshold_HR);
 plt.title('HR signal')
 plt.xlabel('Times')
 plt.ylabel('Voltage')
 plt.plot(t, HR)
 plt.plot(t[peaks], HR[peaks], 'x')
-c = np.savetxt('a.txt', HR)
+# c = np.savetxt('a.txt', HR)
 
 # [pkh, lch] = find_peaks(HR, t, threshold_HR)
 # # peaks,tp = find_peaks(HR,t, threshold=threshold_HR)
