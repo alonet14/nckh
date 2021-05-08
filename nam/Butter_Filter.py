@@ -56,7 +56,7 @@ plt.plot(t, voltage)
 plt.figure(2)
 HR = butter_bandpass_filter(voltage, fL, fH, fs)
 threshold_HR = (max(HR) - min(HR)) * 0.01  # muc nguong
-peaks, _ = ss.find_peaks(HR, distance=2.5, height=threshold_HR)
+peaks, _ = ss.find_peaks(HR, distance=2.5, height=threshold_HR, width=2.5)
 print(threshold_HR)
 HR = np.asarray(HR)
 print(np.size(peaks))
