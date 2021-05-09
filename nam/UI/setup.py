@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QMessageBox
 
 
 class Ui_Setup(object):
@@ -74,8 +75,10 @@ class Ui_Setup(object):
         self.retranslateUi(Setup)
         QtCore.QMetaObject.connectSlotsByName(Setup)
         # kiem tra trang thai
-        self.check1.clicked.connect(self.checkfunction)
-        self.check2.clicked.connect(self.checkfunction)
+        self.check1.clicked.connect(self.on_button_clicked)
+        self.check2.clicked.connect(self.on_button_clicked)
+        self.check1.show()
+        self.check2.show()
 
     def retranslateUi(self, Setup):
         _translate = QtCore.QCoreApplication.translate
@@ -95,17 +98,21 @@ class Ui_Setup(object):
         self.input.setItemText(3, _translate("Setup", "ai3"))
         self.check2.setText(_translate("Setup", "Kiểm tra hoạt động"))
 
-    def checkfunction(self):
-        if self.check1.isChecked():
-            print('sucess')
-        else:
-            print('fail')
+    # def checkfunction(self):
+    #     if self.check1.isChecked():
+    #         print('sucess')
+    #     else:
+    #         print('fail')
+    #
+    #     if self.check2.isChecked():
+    #         print('succ')
+    #     else:
+    #         print('fail')
 
-        if self.check2.isChecked():
-            print('succ')
-        else:
-            print('fail')
-
+    def on_button_clicked(self):
+        alert = QMessageBox()
+        alert.setText('You clicked the button!')
+        alert.exec()
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
