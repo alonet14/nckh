@@ -19,6 +19,7 @@ fr = 0.5;
 % Loc tin hieu nhip tim
 [b,a] = butter(3,[fL/(fs/2) fH/(fs/2)]); % Lay tham so cua bo loc thong dai
 HR = filter(b,a,data); % Loc tin hieu voi bo tham so a, b duoc tra ve
+a= size(HR)
 threshold_HR = (max(HR)-min(HR))*0.01; % Muc nguong
 [pkh,lch] = findpeaks(HR,t, 'MinPeakDistance', 0.5, 'MinPeakHeight', threshold_HR); % Ham tim dinh, tra ve bo gia tri dinh va vi tri
 HR_size = size(pkh);
@@ -34,6 +35,7 @@ fprintf('SDHI: %d\n', sdhi);
 RR = filter(d,c,data); % Loc tin hieu voi bo tham so c, d duoc tra ve
 threshold_RR = (max(RR)-min(RR))*0.01; % Muc nguong
 [pkr,lcr] = findpeaks(RR, t, 'MinPeakDistance', 2.5, 'MinPeakHeight',threshold_RR); % Ham tim dinh, tra ve bo gia tri dinh va vi tri
+RR_size = size(pkr);
 %interval_rr = diff(lcr);
 %RR_size = size(pkr);
 NofRR = RR_size(:,1);
