@@ -29,6 +29,7 @@ def butter_lowpass_filter(data,fs, fr, order=5):
 
 # get data
 data = pd.read_excel('rate-100-NofS-100-60s.xlsx')
+#data = pd.read_excel('backup_3.xlsx')
 #data = pd.read_csv('data.csv')
 print(data)
 data = np.asarray(data)
@@ -54,7 +55,6 @@ plt.xlabel('Times')
 plt.ylabel('Voltage')
 plt.plot(t, voltage)
 
-
 # Loc tin hieu nhip tim
 HR = butter_bandpass_filter(voltage, fL, fH, fs, order=3)
 threshold_HR = (max(HR) - min(HR)) * 0.01  # muc nguong
@@ -66,6 +66,7 @@ print(np.size(peaks))
 RR = butter_lowpass_filter(voltage,fs, fr, order=5)
 threshold_RR = (max(RR) - min(RR)) * 0.01  # muc nguong
 peaks2, _ = ss.find_peaks(RR, distance=2.5, height=threshold_RR, width=2.5)
+print(np.size(peaks2))
 ########### ve đồ thi #############
 # tín hiệu nhịp tim
 plt.figure(2)
