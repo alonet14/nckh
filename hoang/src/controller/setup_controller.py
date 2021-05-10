@@ -10,7 +10,7 @@ def set_item_for_commbo_box(data=['Dev1', 'Dev2'], combobox=QtWidgets.QComboBox)
         combobox.addItem(value)
 
 
+
 def get_list_ai_port(name_device):
     data = ['demo']
-
     pass
