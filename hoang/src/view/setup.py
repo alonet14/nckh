@@ -6,6 +6,7 @@ import pathlib
 from src.view.display import DisplayHrRr
 import src.utils.connect_to_ni_adc as connect_to_ni_adc
 
+
 class MainWindow(QtWidgets.QMainWindow):
     def __init(self):
         super(MainWindow, self).__init()
@@ -35,7 +36,7 @@ class Setup(QtWidgets.QWidget):
     def get_parent(self):
         return self.parent()
 
-    def setup_list_device(self, info_device = {}, data=['Dev1', 'Dev2']):
+    def setup_list_device(self, info_device={}, data=['Dev1', 'Dev2']):
         name_device = info_device['list_devices']
         set_item_for_commbo_box(name_device, self.combobox_devices)
 
@@ -54,10 +55,17 @@ class Setup(QtWidgets.QWidget):
         print(choice)
 
     def go_to_hr_rr_page(self):
+        # create config file
+        import src.utils.file_utils as file_utils
+        device = self.combobox_devices.currentText()
+        port = self.combobox_ports.currentText()
+        file_utils.save_config_device_in_folder(device=device, port=port)
         window = self.get_parent()
         self.close()
         window.setFixedWidth(1000)
         window.setFixedHeight(600)
+
+        import time
+        time.sleep(2)
         display_widget = DisplayHrRr(window)
         display_widget.show()
-
