@@ -1,11 +1,19 @@
 """
 get devices and connected chan connect to laptop
 """
-def get_device(name_device="Dev1"):
-    import nidaqmx.system as nisys
-    device = nisys.device.Device(name_device)
-    return device
+def get_device_info():
+    from nidaqmx.system import System
+    from nidaqmx.system.physical_channel import PhysicalChannel
+    from nidaqmx.system.device import Device
 
-def get_list_ai_chan(name_device='Dev1'):
-    device = get_device(name_device)
-    return device.ai_physical_chans
+    system_ni_daq = System()
+    sys_local = system_ni_daq.local()
+    name_device = sys_local.devices.device_names
+
+    device_local = Device(name_device[0])
+
+    info_device = {
+        "list_devices": name_device,
+        "list_ports": device_local.ai_physical_chans.channel_names
+    }
+    return info_device

@@ -17,28 +17,6 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import numpy as np
 import matplotlib.pyplot as plt
 
-def get_path_data_file(type_file=True):
-    """
-
-    :param type_file: True if csv
-                    False if excel file
-    :return: path data file
-    """
-
-    def get_file_in_path(file_path):
-        import os
-        list_file = []
-        for root, _dir, name_files in os.walk(file_path):
-            for element in name_files:
-                list_file.append(os.path.join(file_path, element))
-        return list_file
-
-    if type_file:
-        pass
-    else:
-        path_data = str(pathlib.Path(__file__).parent.parent.parent.absolute()) + '\\data'
-        return get_file_in_path(path_data)
-
 
 class DisplayHrRr(QtWidgets.QWidget):
     def __init__(self, parent):
@@ -46,34 +24,67 @@ class DisplayHrRr(QtWidgets.QWidget):
         ui_path = str(pathlib.Path(__file__).parent) + "\\display.ui"
         self.ui = uic.loadUi(ui_path, self)
 
-        #get attr
-
-        #show diagram
+        # get attr
+        print('daga')
+        # show diagram
         self.show_hr_diagram()
         self.show_rr_diagram()
 
-        #show result hr rr
+        # show result hr rr
         self.show_hr()
         self.show_rr()
 
     def load_config_file(self):
         pass
 
-    def show_hr_diagram(self, widget = QtWidgets.QWidget):
+    def show_hr_diagram(self):
         Canvas(self.widget_hr)
 
     def show_rr_diagram(self):
         Canvas(self.widget_rr, type_diagram=False)
 
     def show_hr(self):
+        import src.utils.butterworth_filter as butterworth_filter
+        path_data = get_path_data_file(type_file=False)
+        label_hr = self.label_hr
+
+        label_hr.setText("Đang xử lý .")
+        data_raw = get_data_excel(path_data[0])
+        handled_data = butterworth_filter.find_hr(data_raw)
+        hr = str(handled_data.size) + ' bpm'
+        label_hr.setText("Đang xử lý ..")
+
+        label_hr.setText("Đang xử lý ...")
+
+        label_hr.setText("Nhịp tim: " + hr)
+
         pass
 
     def show_rr(self):
+        import src.utils.butterworth_filter as butterworth_filter
+        path_data = get_path_data_file(type_file=False)
+        label_rr = self.label_rr
+
+        label_rr.setText("Đang xử lý .")
+        data_raw = get_data_excel(path_data[0])
+        handled_data = butterworth_filter.find_rr(data_raw)
+        hr = str(handled_data.size) + ' bpm'
+        label_rr.setText("Đang xử lý ..")
+
+        label_rr.setText("Đang xử lý ...")
+
+        label_rr.setText("Nhịp tim: " + hr)
+
         pass
 
 
 class Canvas(FigureCanvas):
-    def __init__(self, parent, type_diagram = True):
+    def __init__(self, parent, type_diagram=True):
+        """
+
+        :param parent: widget cover for diagram
+        :param type_diagram: True if the diagram is for hr, False if rr
+        """
         fig, self.ax = plt.subplots(figsize=(6, 3), dpi=80)
         super().__init__(fig)
         self.setParent(parent)
@@ -105,16 +116,41 @@ class AppDemo(QWidget):
         chart = Canvas(self)
 
 
-app = QApplication(sys.argv)
-main_window = QtWidgets.QMainWindow()
-main_window.setFixedWidth(1000)
-main_window.setFixedHeight(600)
-widget_display = DisplayHrRr(main_window)
+def get_path_data_file(type_file=True):
+    """
+
+    :param type_file: True if csv
+                    False if excel file
+    :return: path data file
+    """
+
+    def get_file_in_path(file_path):
+        import os
+        list_file = []
+        for root, _dir, name_files in os.walk(file_path):
+            for element in name_files:
+                list_file.append(os.path.join(file_path, element))
+        return list_file
+
+    if type_file:
+        pass
+    else:
+        path_data = str(pathlib.Path(__file__).parent.parent.parent.absolute()) + '\\data'
+        return get_file_in_path(path_data)
 
 
-main_window.show()
-sys.exit(app.exec_())
+def get_data_excel(path_data=''):
+    import pandas as pd
+    import numpy as np
+    data = pd.read_excel(path_data, usecols='B', index_col=0)
+    return np.asarray(data.index)
 
-
-
-
+# app = QApplication(sys.argv)
+# main_window = QtWidgets.QMainWindow()
+# main_window.setFixedWidth(1000)
+# main_window.setFixedHeight(600)
+# widget_display = DisplayHrRr(main_window)
+#
+#
+# main_window.show()
+# sys.exit(app.exec_())
