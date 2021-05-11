@@ -3,21 +3,6 @@ import pandas as pd
 import matplotlib
 from nidaqmx import task
 
-read_port_0 = 'Dev1/ai0'
-read_port_1 = 'Dev1/ai1'
-win_path_data_folder = 'E:\python_project\hoang\data'
-
-
-def check_ai_port_working(name_device='Dev1', name_port='ai0'):
-    pass
-
-
-def draw(x_data=[], y_data=[], x_label_name='', y_label_name=''):
-    import matplotlib
-    from matplotlib import pyplot as plt
-    from matplotlib.artist import Artist
-    fig = plt.figure()
-
 
 def read_data(name_device='Dev1'):
     import nidaqmx.task
@@ -29,17 +14,14 @@ def read_data(name_device='Dev1'):
     name_chan = 'Dev1/ai0'
     read_data_task.ai_channels.add_ai_voltage_chan(name_chan)
     data = read_data_task.read()
-    print(data)
     read_data_task.close()
 
 
 def read_multiple_data_from_an_ai_channel(name_device='Dev1', name_chans='Dev1/ai0'):
-    from nidaqmx import constants
     import nidaqmx.task as task
     from nidaqmx.stream_readers import AnalogMultiChannelReader
     from nidaqmx._task_modules.in_stream import InStream
     import numpy as np
-    from nidaqmx._task_modules.channels.channel import Channel
     task_read_data = task.Task('task_in_stream')
     task_read_data.ai_channels.add_ai_voltage_chan('Dev1/ai0:1')
     task_read_data.read(number_of_samples_per_channel=512)
@@ -51,7 +33,6 @@ def read_multiple_data_from_an_ai_channel(name_device='Dev1', name_chans='Dev1/a
                                               number_of_samples_per_channel=512)
 
     print(stored_data)
-
     task_read_data.close()
 
 
@@ -65,9 +46,17 @@ def write_to_excel_file(data=[], file_path=''):
     excel_object.save(file_path)
 
 
-def write_to_csv_file(data='', file_path=''):
+def write_to_csv_file(data='', name_file=''):
     import csv
     import os.path
+    import pathlib
+    parent_path = str(pathlib.Path(__file__).parent.parent.parent) + '\\data'
+    delete_data_file(parent_path)
+    if not name_file.endswith('.csv'):
+        return
+    file_path = os.path.join(parent_path, name_file)
+
+    # create file
     if not os.path.exists(file_path):
         file1 = open(file_path, 'x')
         file1.close()
@@ -76,7 +65,6 @@ def write_to_csv_file(data='', file_path=''):
         employee_writer = csv.writer(store_data_file, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         for ele in data:
             employee_writer.writerow([ele])
-
         store_data_file.close()
     return
 
@@ -96,7 +84,7 @@ def config_for_task(name_task='', frequency=1000.0, port='Dev1/ai0'):
     return configed_task
 
 
-def read_data_continously(port='Dev1/ai0', sample_rate=100, time_in_seconds=30, file_path=''):
+def read_data_continously(port='Dev1/ai0', sample_rate=100, time_in_seconds=30, name_file=''):
     """
     :param sample_rate: in Hz
     :param time_to_seconds: in seconds
@@ -105,38 +93,24 @@ def read_data_continously(port='Dev1/ai0', sample_rate=100, time_in_seconds=30, 
     """
     import datetime
     import os
-    from nidaqmx import task
     from nidaqmx.stream_readers import AnalogSingleChannelReader
     from nidaqmx._task_modules.in_stream import InStream
-    import numpy as np
 
-    if not os.path.exists(file_path):
-        file = open(file_path, 'x')
-        file.close()
-    elif not file_path.endswith('.csv'):
-        print('Not accept this file! please replace with excel (.xlsx) file')
     start_time = datetime.datetime.now().timestamp()
     data_list = []
-    config_task = config_for_task(name_task='Task read I signal', frequency=sample_rate)
+    config_task = config_for_task(name_task='Task read I signal', frequency=sample_rate, port=port)
     instream_analog_task = AnalogSingleChannelReader(InStream(config_task))
 
-    # config_task.start()
     while True:
         data_read = instream_analog_task.read_one_sample(timeout=10)
         data_list.append(data_read)
         end_time = datetime.datetime.now().timestamp()
-        print(end_time - start_time)
         if (end_time - start_time) >= time_in_seconds:
             break
 
     config_task.close()
-    write_to_csv_file(data_list, file_path)
-    # file.close()
-    print(len(data_list))
+    write_to_csv_file(data=data_list, name_file=name_file)
 
-
-# name_file = win_path_data_folder + '\\data.csv'
-# read_data_continously(sample_rate=100, time_in_seconds=10, file_path=name_file)
 
 def delete_data_file(parent_path=''):
     import os
@@ -149,13 +123,9 @@ def delete_data_file(parent_path=''):
             else:
                 print("The file does not exist")
 
-def write_data( name_file=''):
-    import pathlib
 
-    parent_path = str(pathlib.Path(__file__).parent.parent.parent) + '\\data'
-    print(parent_path)
-    delete_data_file(parent_path)
-
-    pass
-
-write_data()
+import datetime
+time_now = datetime.datetime.now().timestamp()
+time_now = int(time_now)
+name_file = ''.join(['data_at_', str(time_now), '.csv'])
+read_data_continously(time_in_seconds=5, name_file=name_file)
