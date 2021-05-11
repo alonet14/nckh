@@ -2,13 +2,22 @@
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>1000</width>
     <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1000</width>
+    <height>600</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -16,18 +25,18 @@
   <widget class="QWidget" name="widget_hr" native="true">
    <property name="geometry">
     <rect>
-     <x>50</x>
-     <y>110</y>
-     <width>281</width>
-     <height>231</height>
+     <x>10</x>
+     <y>100</y>
+     <width>451</width>
+     <height>371</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>0</y>
+     <x>230</x>
+     <y>20</y>
      <width>521</width>
      <height>51</height>
     </rect>
@@ -42,37 +51,27 @@
    <property name="text">
     <string>  HỆ THỐNG ĐO LƯỜNG CÁC CHỈ SỐ SINH TỒN HỖ TRỢ BỆNH NHÂN SỐT XUẤT HUYẾT</string>
    </property>
-  </widget>
-  <widget class="QLabel" name="label_5">
-   <property name="geometry">
-    <rect>
-     <x>580</x>
-     <y>80</y>
-     <width>81</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Đồ thị nhịp thở</string>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QWidget" name="widget_rr" native="true">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>110</y>
-     <width>291</width>
-     <height>221</height>
+     <x>500</x>
+     <y>100</y>
+     <width>481</width>
+     <height>371</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
     <rect>
-     <x>120</x>
-     <y>360</y>
-     <width>55</width>
-     <height>16</height>
+     <x>30</x>
+     <y>480</y>
+     <width>111</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
@@ -82,36 +81,23 @@
   <widget class="QLabel" name="label_7">
    <property name="geometry">
     <rect>
-     <x>590</x>
-     <y>360</y>
-     <width>55</width>
-     <height>16</height>
+     <x>560</x>
+     <y>480</y>
+     <width>101</width>
+     <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>Nhịp thở</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
-   <property name="geometry">
-    <rect>
-     <x>130</x>
-     <y>80</y>
-     <width>91</width>
-     <height>16</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>Đồ thị nhịp tim</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>480</y>
-     <width>93</width>
-     <height>28</height>
+     <x>420</x>
+     <y>550</y>
+     <width>121</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="text">

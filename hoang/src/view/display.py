@@ -9,17 +9,112 @@
 
 
 from PyQt5 import QtWidgets, uic
-
+from PyQt5.QtWidgets import *
 import sys
 import pathlib
 
-print(pathlib.Path(__file__).parent)
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+import numpy as np
+import matplotlib.pyplot as plt
+
+def get_path_data_file(type_file=True):
+    """
+
+    :param type_file: True if csv
+                    False if excel file
+    :return: path data file
+    """
+
+    def get_file_in_path(file_path):
+        import os
+        list_file = []
+        for root, _dir, name_files in os.walk(file_path):
+            for element in name_files:
+                list_file.append(os.path.join(file_path, element))
+        return list_file
+
+    if type_file:
+        pass
+    else:
+        path_data = str(pathlib.Path(__file__).parent.parent.parent.absolute()) + '\\data'
+        return get_file_in_path(path_data)
 
 
 class DisplayHrRr(QtWidgets.QWidget):
     def __init__(self, parent):
         super(DisplayHrRr, self).__init__(parent)
         ui_path = str(pathlib.Path(__file__).parent) + "\\display.ui"
-        uic.loadUi(ui_path, self)
+        self.ui = uic.loadUi(ui_path, self)
+
+        #get attr
+
+        #show diagram
+        self.show_hr_diagram()
+        self.show_rr_diagram()
+
+        #show result hr rr
+        self.show_hr()
+        self.show_rr()
+
+    def load_config_file(self):
+        pass
+
+    def show_hr_diagram(self, widget = QtWidgets.QWidget):
+        Canvas(self.widget_hr)
+
+    def show_rr_diagram(self):
+        Canvas(self.widget_rr, type_diagram=False)
+
+    def show_hr(self):
+        pass
+
+    def show_rr(self):
+        pass
+
+
+class Canvas(FigureCanvas):
+    def __init__(self, parent, type_diagram = True):
+        fig, self.ax = plt.subplots(figsize=(6, 3), dpi=80)
+        super().__init__(fig)
+        self.setParent(parent)
+
+        """ 
+        Matplotlib Script
+        """
+
+        import pandas as pd
+        import src.utils.filter as fil
+        import numpy as np
+
+        data_path = get_path_data_file(type_file=False)
+        data = pd.read_excel(data_path[0], usecols='B', index_col=0)
+        handle_data = []
+        if type_diagram:
+            handled_data = fil.bandpass_filter_butterworth_hr(data.index)
+        else:
+            handled_data = fil.low_filter_butterworth_rr(data.index)
+        y_ax = np.arange(0, handled_data.size, 1)
+        plt.plot(y_ax, handled_data)
+        plt.grid()
+
+
+class AppDemo(QWidget):
+    def __init__(self):
+        super().__init__()
+        self.resize(1600, 800)
+        chart = Canvas(self)
+
+
+app = QApplication(sys.argv)
+main_window = QtWidgets.QMainWindow()
+main_window.setFixedWidth(1000)
+main_window.setFixedHeight(600)
+widget_display = DisplayHrRr(main_window)
+
+
+main_window.show()
+sys.exit(app.exec_())
+
+
 
 

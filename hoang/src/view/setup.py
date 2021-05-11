@@ -5,13 +5,13 @@ import pathlib
 
 from src.view.display import DisplayHrRr
 
+
 class MainWindow(QtWidgets.QMainWindow):
     def __init(self):
         super(MainWindow, self).__init()
         ui_path = str(pathlib.Path(__file__).parent) + "\\main_window.ui"
         uic.loadUi(ui_path, self)
-        # self.centralWidget.setFixedWidth(800)
-        # self.centralWidget.setFixedHeight(600)
+
 
 class Setup(QtWidgets.QWidget):
     def __init__(self, parent):
@@ -56,8 +56,3 @@ class Setup(QtWidgets.QWidget):
         display_widget = DisplayHrRr(window)
         self.close()
         display_widget.show()
-
-
-
-
-
