@@ -65,7 +65,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLabel" name="label_6">
+  <widget class="QLabel" name="label_hr">
    <property name="geometry">
     <rect>
      <x>30</x>
@@ -78,7 +78,7 @@
     <string>Nhịp tim</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_7">
+  <widget class="QLabel" name="label_rr">
    <property name="geometry">
     <rect>
      <x>560</x>
