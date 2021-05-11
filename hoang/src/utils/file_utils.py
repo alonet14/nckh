@@ -135,5 +135,27 @@ def read_data_continously(port='Dev1/ai0', sample_rate=100, time_in_seconds=30, 
     print(len(data_list))
 
 
-name_file = win_path_data_folder + '\\data.csv'
-read_data_continously(sample_rate=100, time_in_seconds=10, file_path=name_file)
+# name_file = win_path_data_folder + '\\data.csv'
+# read_data_continously(sample_rate=100, time_in_seconds=10, file_path=name_file)
+
+def delete_data_file(parent_path=''):
+    import os
+    from send2trash import send2trash
+    for root, _dir, file_names in os.walk(parent_path):
+        for file_name in file_names:
+            file_path = os.path.join(parent_path, file_name)
+            if os.path.exists(file_path):
+                send2trash(file_path)
+            else:
+                print("The file does not exist")
+
+def write_data( name_file=''):
+    import pathlib
+
+    parent_path = str(pathlib.Path(__file__).parent.parent.parent) + '\\data'
+    print(parent_path)
+    delete_data_file(parent_path)
+
+    pass
+
+write_data()

@@ -3,7 +3,6 @@ get devices and connected chan connect to laptop
 """
 def get_device_info():
     from nidaqmx.system import System
-    from nidaqmx.system.physical_channel import PhysicalChannel
     from nidaqmx.system.device import Device
 
     system_ni_daq = System()
