@@ -16,3 +16,6 @@ def get_device_info():
         "list_ports": device_local.ai_physical_chans.channel_names
     }
     return info_device
+
+def save_config_device_in_folder(device='Dev1', port='Dev1/ai0'):
+    pass
