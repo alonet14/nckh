@@ -58,14 +58,14 @@ plt.plot(t, voltage)
 # Loc tin hieu nhip tim
 HR = butter_bandpass_filter(voltage, fL, fH, fs, order=3)
 threshold_HR = (max(HR) - min(HR)) * 0.01  # muc nguong
-peaks, _ = ss.find_peaks(HR, distance=2.5, height=threshold_HR, width=2.5)
+peaks, _ = ss.find_peaks(HR, distance=51, height=threshold_HR, width=2.5)
 print(threshold_HR)
 HR = np.asarray(HR)
 print(np.size(peaks))
 # Loc tin hieu nhip tho
 RR = butter_lowpass_filter(voltage,fs, fr, order=5)
 threshold_RR = (max(RR) - min(RR)) * 0.01  # muc nguong
-peaks2, _ = ss.find_peaks(RR, distance=2.5, height=threshold_RR, width=2.5)
+peaks2, _ = ss.find_peaks(RR, distance=204, height=threshold_RR, width=2.5)
 print(np.size(peaks2))
 ########### ve đồ thi #############
 # tín hiệu nhịp tim
