@@ -2,6 +2,7 @@
 get devices and connected chan connect to laptop
 """
 
+
 def get_device_info():
     from nidaqmx.system import System
     from nidaqmx.system.device import Device
@@ -18,6 +19,7 @@ def get_device_info():
     }
     return info_device
 
+
 def read_multiple_data_from_an_ai_channel(name_device='Dev1', name_chans='Dev1/ai0'):
     import nidaqmx.task as task
     from nidaqmx.stream_readers import AnalogMultiChannelReader
@@ -33,6 +35,7 @@ def read_multiple_data_from_an_ai_channel(name_device='Dev1', name_chans='Dev1/a
                                               number_of_samples_per_channel=512)
 
     task_read_data.close()
+
 
 def config_for_task(name_task='', frequency=1000.0, port='Dev1/ai0'):
     """
@@ -64,7 +67,6 @@ def read_data_continously(port='Dev1/ai0', sample_rate=100, time_in_seconds=30, 
     data_list = []
     config_task = config_for_task(name_task='Task read I signal', frequency=sample_rate, port=port)
     instream_analog_task = AnalogSingleChannelReader(InStream(config_task))
-
     while True:
         data_read = instream_analog_task.read_one_sample(timeout=10)
         data_list.append(data_read)
@@ -76,6 +78,14 @@ def read_data_continously(port='Dev1/ai0', sample_rate=100, time_in_seconds=30, 
     file_utils.write_to_csv_file(data=data_list, name_file=name_file)
 
 
-
-
+def read_single_data(port='Dev1/ai0', sample_rate=100):
+    from nidaqmx.stream_readers import AnalogSingleChannelReader
+    from nidaqmx._task_modules.in_stream import InStream
+    data_list = []
+    config_task = config_for_task(name_task='Task read I signal', frequency=sample_rate, port=port)
+    instream_analog_task = AnalogSingleChannelReader(InStream(config_task))
+    data_read = instream_analog_task.read_one_sample(timeout=10)
+    data_list.append(data_read)
+    config_task.close()
+    return data_list
 
