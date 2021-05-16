@@ -23,10 +23,10 @@ class Setup(QtWidgets.QWidget):
         uic.loadUi(ui_path, self)
 
         # ==================Config==================
-        info_device = connect_to_ni_adc.get_device_info()
+        # info_device = connect_to_ni_adc.get_device_info()
         # ======Name=====
-        self.setup_list_device(info_device=info_device)
-        self.setup_list_port(info_device=info_device)
+        # self.setup_list_device(info_device=info_device)
+        # self.setup_list_port(info_device=info_device)
 
         # =====Button====
         self.button_check_device.clicked.connect(self.check_device_active_event)
@@ -36,13 +36,11 @@ class Setup(QtWidgets.QWidget):
     def get_parent(self):
         return self.parent()
 
-    def setup_list_device(self, info_device={}, data=['Dev1', 'Dev2']):
+    def setup_list_device(self, info_device={}):
         name_device = info_device['list_devices']
         set_item_for_commbo_box(name_device, self.combobox_devices)
 
     def setup_list_port(self, info_device):
-        # data = ['ai0', 'ai1', 'ai2']
-        # concatenated_data = map(lambda ele: name_device + '/' + ele, data)
         name_ai_physical_channel = info_device['list_ports']
         set_item_for_commbo_box(name_ai_physical_channel, self.combobox_ports)
 
