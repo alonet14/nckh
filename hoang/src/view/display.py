@@ -21,27 +21,27 @@ class DisplayHrRr(QtWidgets.QWidget):
         from nidaqmx._task_modules.in_stream import InStream
 
         super(DisplayHrRr, self).__init__(parent)
-        ui_path = str(pathlib.Path(__file__).parent) + "\\display.ui"
-        self.ui = uic.loadUi(ui_path, self)
-        self.data_raw = [0 for i in range(1001)]
-        self.data_raw_to_show_hr_rr = []
-
-        info = read_config_file()
-        configed_task = Task('Task read I signal')
-        configed_task.ai_channels.add_ai_voltage_chan(info['port'])
-        configed_task.timing.cfg_samp_clk_timing(rate=100)
-
-        self.config_task = configed_task
-        self.instream_analog_task = AnalogSingleChannelReader(InStream(self.config_task))
+        # ui_path = str(pathlib.Path(__file__).parent) + "\\display.ui"
+        # self.ui = uic.loadUi(ui_path, self)
+        # self.data_raw = [0 for i in range(1001)]
+        # self.data_raw_to_show_hr_rr = []
+        #
+        # info = read_config_file()
+        # configed_task = Task('Task read I signal')
+        # configed_task.ai_channels.add_ai_voltage_chan(info['port'])
+        # configed_task.timing.cfg_samp_clk_timing(rate=100)
+        #
+        # self.config_task = configed_task
+        # self.instream_analog_task = AnalogSingleChannelReader(InStream(self.config_task))
 
         # create thread and run
-        self.thread_append_to_raw_data()
+        # self.thread_append_to_raw_data()
 
         # show diagram
-        self.show_hr_diagram()
-        self.show_rr_diagram()
+        # self.show_hr_diagram()
+        # self.show_rr_diagram()
 
-        self.thread_calculate_hr()
+        # self.thread_calculate_hr()
         # show result hr rr
         # self.show_hr()
         # self.show_rr()
