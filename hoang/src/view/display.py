@@ -6,7 +6,6 @@ from nidaqmx.task import Task
 import src.utils.file_utils as file_utils
 from src.view.manual_fill import ManualFill
 
-
 class DisplayHrRr(QtWidgets.QWidget):
     def __init__(self, parent):
         from nidaqmx.stream_readers import AnalogSingleChannelReader
@@ -22,9 +21,9 @@ class DisplayHrRr(QtWidgets.QWidget):
                                                  source=u'',
                                                  active_edge=Edge.RISING,
                                                  sample_mode=AcquisitionType.FINITE,
-                                                 samps_per_chan=6000)
+                                                 samps_per_chan=1500)
 
-        self.data_raw = np.zeros(shape=(6000,))
+        self.data_raw = np.zeros(shape=(1500,))
         self.instream_analog_task = AnalogSingleChannelReader(InStream(configed_task))
 
         # init
@@ -48,7 +47,7 @@ class DisplayHrRr(QtWidgets.QWidget):
         self.button_manual.setEnabled(False)
 
     def function_append_data(self):
-        self.instream_analog_task.read_many_sample(data=self.data_raw, number_of_samples_per_channel=6000, timeout=100)
+        self.instream_analog_task.read_many_sample(data=self.data_raw, number_of_samples_per_channel=1500, timeout=100)
         self.button_auto.setEnabled(True)
         self.button_auto.setText("Tiến hành đo tự động")
         self.combobox_mode.setEnabled(True)
@@ -56,21 +55,47 @@ class DisplayHrRr(QtWidgets.QWidget):
         # calculate
         data_raw_hr_rr = self.data_raw
         import src.utils.butterworth_filter as btwf
-        hr = len(btwf.find_hr(data_raw_hr_rr))
-        rr = len(btwf.find_rr(data_raw_hr_rr))
+
+        hr = len(btwf.find_hr(data_raw_hr_rr))*4
+        rr = len(btwf.find_rr(data_raw_hr_rr))*4
+
         self.label_hr.setText('Nhịp tim: ' + str(hr) + ' bpm')
         self.label_rr.setText('Nhịp thở: ' + str(rr) + ' bpm')
 
-        info={'name': 'Default', 'hr':hr, 'rr':rr, 'temp': 37.5}
+        info = {'name': 'Default', 'hr': hr, 'rr': rr, 'temp': 37.5}
         file_utils.write_person_data(info)
 
+        import matplotlib.pyplot as plt
+        import numpy as np
+        peaks = btwf.find_hr(self.data_raw)
+        peaks2 = btwf.find_rr(self.data_raw)
+        HR = btwf.butter_bandpass_filter(self.data_raw)
+        RR = btwf.butter_lowpass_filter(self.data_raw)
+        t = np.arange(0, 15, 0.01)
+        plt.figure(2)
+        plt.title('HR signal')
+        plt.xlabel('Times')
+        plt.ylabel('Voltage')
+        plt.plot(t, HR)
+        plt.plot(t[peaks], HR[peaks], 'x')
+        # tín hiệu nhịp thở
+        plt.figure(3)
+        plt.title('RR signal')
+        plt.xlabel('Times')
+        plt.ylabel('Voltage')
+        plt.plot(t, RR)
+        plt.plot(t[peaks2], RR[peaks2], 'x')
+        plt.show()
+
+
+
     def timer_count(self):
-        timer_amount = 60  # s
+        timer_amount = 15  # s
         val_pro = 0
         import time
         while timer_amount > 0:
             time.sleep(1)
-            val_pro += 1.67
+            val_pro += 6.67
             if val_pro >= 100:
                 val_pro = 100
             timer_amount -= 1
@@ -84,7 +109,7 @@ class DisplayHrRr(QtWidgets.QWidget):
         self.label_rr.setText('Nhịp thở: đang xử lý dữ liệu')
 
         if self.data_raw.size > 0:
-            self.data_raw = np.zeros(shape=(6000,))
+            self.data_raw = np.zeros(shape=(1500,))
 
         # create thread and run
         import threading
