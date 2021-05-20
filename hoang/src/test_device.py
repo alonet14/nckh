@@ -1,53 +1,45 @@
-import sys
-import time
-
+import nidaqmx.task as task
+from nidaqmx._task_modules.in_stream import InStream
+from nidaqmx.constants import Edge, AcquisitionType
+from nidaqmx.stream_readers import AnalogSingleChannelReader
+import src.utils.butterworth_filter as btwf
 import numpy as np
-
-from matplotlib.backends.qt_compat import QtCore, QtWidgets, is_pyqt5
-if is_pyqt5():
-    from matplotlib.backends.backend_qt5agg import (
-        FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
-else:
-    from matplotlib.backends.backend_qt4agg import (
-        FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
-from matplotlib.figure import Figure
-
-
-class ApplicationWindow(QtWidgets.QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self._main = QtWidgets.QWidget()
-        self.setCentralWidget(self._main)
-        layout = QtWidgets.QVBoxLayout(self._main)
-
-        static_canvas = FigureCanvas(Figure(figsize=(5, 3)))
-        layout.addWidget(static_canvas)
-        self.addToolBar(NavigationToolbar(static_canvas, self))
-
-        dynamic_canvas = FigureCanvas(Figure(figsize=(5, 3)))
-        layout.addWidget(dynamic_canvas)
-        self.addToolBar(QtCore.Qt.BottomToolBarArea,
-                        NavigationToolbar(dynamic_canvas, self))
-
-        self._static_ax = static_canvas.figure.subplots()
-        t = np.linspace(0, 10, 501)
-        self._static_ax.plot(t, np.tan(t), ".")
-
-        self._dynamic_ax = dynamic_canvas.figure.subplots()
-        self._timer = dynamic_canvas.new_timer(
-            100, [(self._update_canvas, (), {})])
-        self._timer.start()
-
-    def _update_canvas(self):
-        self._dynamic_ax.clear()
-        t = np.linspace(0, 10, 1001)
-        # Shift the sinusoid as a function of time.
-        self._dynamic_ax.plot(t, np.sin(t + time.time()))
-        self._dynamic_ax.figure.canvas.draw()
-
+import src.utils.file_utils as file_utils
+data_raw = np.zeros(shape=(6000,))
 
 if __name__ == "__main__":
-    qapp = QtWidgets.QApplication(sys.argv)
-    app = ApplicationWindow()
-    app.show()
-    qapp.exec_()
+
+    configed_task = task.Task('Task read I signal')
+    configed_task.ai_channels.add_ai_voltage_chan('Dev1/ai0')
+    configed_task.timing.cfg_samp_clk_timing(rate=100,
+                                             source=u'',
+                                             active_edge=Edge.RISING,
+                                             sample_mode=AcquisitionType.FINITE,
+                                             samps_per_chan=6000)
+
+    instream_analog_task = AnalogSingleChannelReader(InStream(configed_task))
+    instream_analog_task.read_many_sample(data=data_raw, number_of_samples_per_channel=6000, timeout=100)
+    file_path = 'E:\\python_project\\hoang\data\\data_test.csv'
+    file_utils.write_to_csv_file(data_raw, file_path)
+
+    import matplotlib.pyplot as plt
+    import numpy as np
+    peaks = btwf.find_hr(data_raw)
+    peaks2 = btwf.find_rr(data_raw)
+    HR = btwf.butter_bandpass_filter(data_raw)
+    RR = btwf.butter_lowpass_filter(data_raw)
+    t = np.arange(0, 60, 0.01)
+    plt.figure(2)
+    plt.title('HR signal')
+    plt.xlabel('Times')
+    plt.ylabel('Voltage')
+    plt.plot(t, HR)
+    plt.plot(t[peaks], HR[peaks], 'x')
+    # tín hiệu nhịp thở
+    plt.figure(3)
+    plt.title('RR signal')
+    plt.xlabel('Times')
+    plt.ylabel('Voltage')
+    plt.plot(t, RR)
+    plt.plot(t[peaks2], RR[peaks2], 'x')
+    plt.show()
