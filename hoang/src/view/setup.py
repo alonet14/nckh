@@ -1,8 +1,6 @@
 from PyQt5 import QtWidgets, uic
-import sys
 from src.controller.setup_controller import *
 import pathlib
-
 from src.view.display import DisplayHrRr
 import src.utils.connect_to_ni_adc as connect_to_ni_adc
 
@@ -23,10 +21,10 @@ class Setup(QtWidgets.QWidget):
         uic.loadUi(ui_path, self)
 
         # ==================Config==================
-        # info_device = connect_to_ni_adc.get_device_info()
+        info_device = connect_to_ni_adc.get_device_info()
         # ======Name=====
-        # self.setup_list_device(info_device=info_device)
-        # self.setup_list_port(info_device=info_device)
+        self.setup_list_device(info_device=info_device)
+        self.setup_list_port(info_device=info_device)
 
         # =====Button====
         self.button_check_device.clicked.connect(self.check_device_active_event)
@@ -58,12 +56,9 @@ class Setup(QtWidgets.QWidget):
         device = self.combobox_devices.currentText()
         port = self.combobox_ports.currentText()
         file_utils.save_config_device_in_folder(device=device, port=port)
+
         window = self.get_parent()
         self.close()
-        window.setFixedWidth(1000)
-        window.setFixedHeight(600)
 
-        import time
-        time.sleep(2)
         display_widget = DisplayHrRr(window)
         display_widget.show()

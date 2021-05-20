@@ -71,3 +71,11 @@ def delete_files_in_folder(parent_path=''):
                 send2trash(file_path)
             else:
                 print("The file does not exist")
+
+def write_person_data(data):
+    import pathlib
+    import json
+    path_person_data = str(pathlib.Path(__file__).parent.parent.parent) + '\\person_data'
+    file_name = path_person_data + '\\data.json'
+    with open(file_name, 'w') as json_file:
+        json.dump(data, json_file)

@@ -2,106 +2,171 @@
 <ui version="4.0">
  <class>Form</class>
  <widget class="QWidget" name="Form">
-  <property name="enabled">
-   <bool>true</bool>
-  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>600</height>
+    <width>800</width>
+    <height>400</height>
    </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>1000</width>
-    <height>600</height>
-   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="widget_hr" native="true">
+  <widget class="QComboBox" name="combobox_mode">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>100</y>
-     <width>451</width>
-     <height>371</height>
+     <x>30</x>
+     <y>60</y>
+     <width>69</width>
+     <height>22</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_manual">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>160</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Nhập thông tin thủ công</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_predict">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>220</y>
+     <width>121</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Dự đoán</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_auto">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>100</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tiến hành đo tự động</string>
+   </property>
+  </widget>
+  <widget class="QProgressBar" name="progress">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>60</y>
+     <width>501</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="value">
+    <number>24</number>
    </property>
   </widget>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>20</y>
-     <width>521</width>
-     <height>51</height>
+     <x>370</x>
+     <y>10</y>
+     <width>151</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <pointsize>8</pointsize>
+     <pointsize>11</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
    </property>
    <property name="text">
-    <string>  HỆ THỐNG ĐO LƯỜNG CÁC CHỈ SỐ SINH TỒN HỖ TRỢ BỆNH NHÂN SỐT XUẤT HUYẾT</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="widget_rr" native="true">
-   <property name="geometry">
-    <rect>
-     <x>500</x>
-     <y>100</y>
-     <width>481</width>
-     <height>371</height>
-    </rect>
+    <string>Xử lý tín hiệu</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_hr">
    <property name="geometry">
     <rect>
-     <x>30</x>
-     <y>480</y>
-     <width>251</width>
-     <height>31</height>
+     <x>240</x>
+     <y>120</y>
+     <width>481</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Nhịp tim</string>
    </property>
   </widget>
+  <widget class="QLabel" name="label_temp">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>220</y>
+     <width>481</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Nhiệt độ</string>
+   </property>
+  </widget>
   <widget class="QLabel" name="label_rr">
    <property name="geometry">
     <rect>
-     <x>560</x>
-     <y>480</y>
-     <width>271</width>
-     <height>31</height>
+     <x>240</x>
+     <y>170</y>
+     <width>451</width>
+     <height>21</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>Nhịp thở</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton">
+  <widget class="QLabel" name="label_result">
    <property name="geometry">
     <rect>
-     <x>420</x>
-     <y>550</y>
-     <width>121</width>
-     <height>41</height>
+     <x>240</x>
+     <y>270</y>
+     <width>531</width>
+     <height>16</height>
     </rect>
    </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
+   </property>
    <property name="text">
-    <string>Dự đoán</string>
+    <string>KẾT QUẢ: Chưa có dữ liệu</string>
    </property>
   </widget>
  </widget>
