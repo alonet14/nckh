@@ -8,7 +8,7 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = MainWindow()
     window.setFixedWidth(800)
-    window.setFixedHeight(600)
+    window.setFixedHeight(400)
     setup_screen = Setup(window)
 
     window.setWindowTitle(name_window)

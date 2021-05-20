@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>800</width>
-    <height>600</height>
+    <height>400</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -28,8 +28,8 @@
   <widget class="QGroupBox" name="groupbox_port_area">
    <property name="geometry">
     <rect>
-     <x>480</x>
-     <y>170</y>
+     <x>470</x>
+     <y>90</y>
      <width>191</width>
      <height>151</height>
     </rect>
@@ -64,8 +64,8 @@
   <widget class="QGroupBox" name="groupbox_device_area">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>170</y>
+     <x>170</x>
+     <y>90</y>
      <width>191</width>
      <height>151</height>
     </rect>
@@ -100,14 +100,15 @@
   <widget class="QLabel" name="title_interface">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>130</y>
-     <width>141</width>
+     <x>340</x>
+     <y>40</y>
+     <width>151</width>
      <height>16</height>
     </rect>
    </property>
    <property name="font">
     <font>
+     <pointsize>11</pointsize>
      <weight>75</weight>
      <bold>true</bold>
     </font>
@@ -116,33 +117,19 @@
     <string>CẤU HÌNH THIẾT BỊ</string>
    </property>
   </widget>
-  <widget class="QLabel" name="title_software">
+  <widget class="QPushButton" name="button_hr_rr">
    <property name="geometry">
     <rect>
-     <x>170</x>
-     <y>50</y>
-     <width>491</width>
-     <height>51</height>
+     <x>330</x>
+     <y>290</y>
+     <width>161</width>
+     <height>41</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <weight>75</weight>
-     <bold>true</bold>
+     <pointsize>11</pointsize>
     </font>
-   </property>
-   <property name="text">
-    <string>HỆ THỐNG ĐO LƯỜNG CÁC CHỈ SỐ SINH TỒN HỖ TRỢ BỆNH NHÂN SỐT XUẤT HUYẾT</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="button_hr_rr">
-   <property name="geometry">
-    <rect>
-     <x>360</x>
-     <y>360</y>
-     <width>111</width>
-     <height>31</height>
-    </rect>
    </property>
    <property name="text">
     <string>Tiến hành khảo sát</string>

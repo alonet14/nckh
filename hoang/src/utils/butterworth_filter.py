@@ -32,7 +32,7 @@ def find_hr(data, lowcut=0.83, highcut=2.33, fs=100, order=3, distance=51, width
 
 
 # Loc tin hieu nhip tho
-def find_rr(data, fs=100, fr=0.5, distance=2.5, width=2.5):
+def find_rr(data, fs=100, fr=0.5, distance=250, width=2.5):
     rr = butter_lowpass_filter(data, fs=fs, fr=fr, order=5)
     threshold_rr = (max(rr) - min(rr)) * 0.01  # muc nguong
     peaks, _ = ss.find_peaks(rr, distance=distance, height=threshold_rr, width=width)
