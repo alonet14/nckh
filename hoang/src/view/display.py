@@ -32,14 +32,21 @@ class DisplayHrRr(QtWidgets.QWidget):
 
         self.button_auto.clicked.connect(self.button_auto_event)
         self.button_manual.clicked.connect(self.button_manual_event)
+        self.button_refresh.clicked.connect(self.refresh)
 
         # click predict
         self.combobox_mode.addItems(["Tự động", "Thủ công"])
         self.manual_mode = False
         self.combobox_mode.currentIndexChanged.connect(self.update_mode)
 
-        # envent button
+        # event button
         self.button_predict.clicked.connect(self.predict)
+
+        #thread read data temp
+        import threading
+        import src.utils.read_data_temp as rdt
+        thread_read_data = threading.Thread(target=rdt.read_data_temp, daemon=True)
+        thread_read_data.start()
 
     # ==================event button ================
     def init_state_button(self):
@@ -62,7 +69,13 @@ class DisplayHrRr(QtWidgets.QWidget):
         self.label_hr.setText('Nhịp tim: ' + str(hr) + ' bpm')
         self.label_rr.setText('Nhịp thở: ' + str(rr) + ' bpm')
 
-        info = {'name': 'Default', 'hr': hr, 'rr': rr, 'temp': 37.5}
+        parent_path = str(pathlib.Path(__file__).parent.parent.parent) + "\\data\\temp"
+        file_path = parent_path + '\\temp.txt'
+        with open(file_path, 'r') as file_temp:
+            temp = file_temp.readline(5)
+            file_temp.close()
+
+        info = {'name': 'Default', 'hr': hr, 'rr': rr, 'temp': temp}
         file_utils.write_person_data(info)
 
         import matplotlib.pyplot as plt
@@ -133,6 +146,15 @@ class DisplayHrRr(QtWidgets.QWidget):
             self.manual_mode = True
             self.button_auto.setEnabled(False)
             self.button_manual.setEnabled(True)
+
+    def refresh(self):
+        parent_path = str(pathlib.Path(__file__).parent.parent.parent) + "\\data\\temp"
+        file_path = parent_path + '\\temp.txt'
+        with open(file_path, 'r') as file_temp:
+            temp = file_temp.readline(5)
+            file_temp.close()
+        print(temp)
+        self.label_temp.setText('Nhiệt độ: {}'.format(temp))
 
     def predict(self):
         info = read_person_data()

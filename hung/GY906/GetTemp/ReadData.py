@@ -4,7 +4,7 @@ import schedule
 
 def main_func():
     # collect
-    arduino = serial.Serial('COM6', 9600)
+    arduino = serial.Serial('COM5', 9600)
 
     print('Established serial connection to Arduino')
     arduino_data = arduino.readline()
