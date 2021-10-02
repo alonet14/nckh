@@ -21,12 +21,13 @@ def write_to_excel_file(data=[], file_path=''):
     excel_object.save(file_path)
 
 
-def write_to_csv_file(data='', name_file=''):
+def write_to_csv_file(data='', name_file='', delete=True):
     import csv
     import os.path
     import pathlib
     parent_path = str(pathlib.Path(__file__).parent.parent.parent) + '\\data'
-    delete_files_in_folder(parent_path)
+    if delete:
+        delete_files_in_folder(parent_path)
     if not name_file.endswith('.csv'):
         return
     file_path = os.path.join(parent_path, name_file)
@@ -71,6 +72,7 @@ def delete_files_in_folder(parent_path=''):
                 send2trash(file_path)
             else:
                 print("The file does not exist")
+
 
 def write_person_data(data):
     import pathlib

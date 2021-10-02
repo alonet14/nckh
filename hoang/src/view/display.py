@@ -33,6 +33,7 @@ class DisplayHrRr(QtWidgets.QWidget):
         self.button_auto.clicked.connect(self.button_auto_event)
         self.button_manual.clicked.connect(self.button_manual_event)
         self.button_refresh.clicked.connect(self.refresh)
+        self.button_refresh_hr.clicked.connect(self.get_hr_ref)
 
         # click predict
         self.combobox_mode.addItems(["Tự động", "Thủ công"])
@@ -147,14 +148,26 @@ class DisplayHrRr(QtWidgets.QWidget):
             self.button_auto.setEnabled(False)
             self.button_manual.setEnabled(True)
 
+    def get_hr_ref(self):
+        parent_path = str(pathlib.Path(__file__).parent.parent.parent) + "\\data\\temp"
+        file_path = parent_path + '\\temp.txt'
+        with open(file_path, 'r') as file_temp:
+            temp = file_temp.readline(12)
+            temp = temp.split('x')[1]
+            temp = temp.split('.')[0]
+            file_temp.close()
+        print(temp)
+        self.label_hr_ref.setText('Nhịp tim tham chiếu: {} bpm'.format(temp))
+
     def refresh(self):
         parent_path = str(pathlib.Path(__file__).parent.parent.parent) + "\\data\\temp"
         file_path = parent_path + '\\temp.txt'
         with open(file_path, 'r') as file_temp:
-            temp = file_temp.readline(5)
+            temp = file_temp.readline(12)
+            temp = temp.split('x')[0]
             file_temp.close()
         print(temp)
-        self.label_temp.setText('Nhiệt độ: {}'.format(temp))
+        self.label_temp.setText('Nhiệt độ: {} độ'.format(temp))
 
     def predict(self):
         info = read_person_data()
@@ -202,13 +215,11 @@ def get_path_data_file(type_file=True):
         path_data = str(pathlib.Path(__file__).parent.parent.parent.absolute()) + '\\data'
         return get_file_in_path(path_data)
 
-
 def get_data_excel(path_data=''):
     import pandas as pd
     import numpy as np
     data = pd.read_excel(path_data, usecols='B', index_col=0)
     return np.asarray(data.index)
-
 
 def read_config_file():
     import json
@@ -219,7 +230,6 @@ def read_config_file():
     with open(file_config, 'r') as config_file:
         info = json.load(config_file)
         return info
-
 
 def read_person_data():
     import pathlib
