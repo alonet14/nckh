@@ -8,12 +8,7 @@ def main_func():
 
     print('Established serial connection to Arduino')
     arduino_data = arduino.readline()
-
     decoded_values = str(arduino_data[0:len(arduino_data)].decode("utf-8"))
-    # list_values = decoded_values.split('x')
-
-    # for item in list_values:
-    #     list_in_floats.append(float(item))
 
     print(f'Collected readings from Arduino: {decoded_values}')
 

@@ -100,7 +100,7 @@
     <rect>
      <x>240</x>
      <y>110</y>
-     <width>481</width>
+     <width>201</width>
      <height>21</height>
     </rect>
    </property>
@@ -117,9 +117,9 @@
    <property name="geometry">
     <rect>
      <x>240</x>
-     <y>220</y>
+     <y>230</y>
      <width>191</width>
-     <height>31</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="font">
@@ -181,6 +181,37 @@
    </property>
    <property name="text">
     <string>Lấy nhiệt độ</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_hr_ref">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>110</y>
+     <width>251</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>11</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Nhịp tim tham chiếu: </string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="button_refresh_hr">
+   <property name="geometry">
+    <rect>
+     <x>710</x>
+     <y>110</y>
+     <width>75</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Lấy nhịp tim</string>
    </property>
   </widget>
  </widget>
